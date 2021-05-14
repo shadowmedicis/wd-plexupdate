@@ -27,8 +27,8 @@ This script will be very useful for you to automatically update your Plex Media 
 You cannot use git clone to download this script directly from Western Digital NAS.
 
 You can use wget to download RAW script from github:
-wget --no-check-certificate https://raw.githubusercontent.com/shadowmedicis/wd-plexupdate/main/plexupdate.sh
-\n
+`wget --no-check-certificate https://raw.githubusercontent.com/shadowmedicis/wd-plexupdate/main/plexupdate.sh`
+
 You can therefore download directly from your computer to transfer it in SFTP / SMB.
 
 Preferably place this script on your volume: "Volume_1" and in a folder only accessible by the admin user.
@@ -37,15 +37,15 @@ Preferably place this script on your volume: "Volume_1" and in a folder only acc
 Log into ssh as the sshd (root) user.
 This script should be run as the root user, so it is important for security reasons to apply the necessary permissions.
 
-chmod 0700 plexupdate.sh
+`chmod 0700 plexupdate.sh`
 
 ## Scheduled task creation
 
-We can use the crontab -e command to create the scheduled task.
+We can use the `crontab -e` command to create the scheduled task.
 If you are not comfortable with cron, you can use this site to help you: https://crontab-generator.org/
 
 Exemple:
-0 3 * * * /shares/Volume_1/Scripts/plexupdate.sh > /shares/Volume_1/Scripts/Reports/cron-plexupdate-$(date +\%Y\%m\%d\%H\%M\%S).log
+`0 3 * * * /shares/Volume_1/Scripts/plexupdate.sh > /shares/Volume_1/Scripts/Reports/cron-plexupdate-$(date +\%Y\%m\%d\%H\%M\%S).log`
 
 This example is a scheduled plex server update task every day at 3:00 a.m.
 Logs of script output are also redirected day by day.
