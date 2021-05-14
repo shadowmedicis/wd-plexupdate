@@ -25,8 +25,10 @@ This script will be very useful for you to automatically update your Plex Media 
 
 ## Copy script
 You cannot use git clone to download this script directly from Western Digital NAS.
-or
-You can use wget to download RAW script from github.
+
+You can use wget to download RAW script from github:
+wget --no-check-certificate https://raw.githubusercontent.com/shadowmedicis/wd-plexupdate/main/plexupdate.sh
+or:
 You can therefore download directly from your computer to transfer it in SFTP / SMB.
 
 Preferably place this script on your volume: "Volume_1" and in a folder only accessible by the admin user.
