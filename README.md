@@ -50,3 +50,6 @@ Exemple:
 This example is a scheduled plex server update task every day at 3:00 a.m.
 Logs of script output are also redirected day by day.
 
+**Warning** Please note that your modifications in the crontab are not persistent.
+Any modifications to the MyCloudOS system represent a risk. I advise you to carry out this action with full knowledge of the causes. To add the scheduled task on your system please use this tutorial: https://community.wd.com/t/how-to-make-persistent-system-changes-crontab-etc/201268
+
