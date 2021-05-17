@@ -6,33 +6,49 @@
 # @source @shadowmedicis
 # @author @shadowmedicis
 
-url_plexapi="https://plex.tv/api/downloads/5.json"
+url_plexapi='https://plex.tv/api/downloads/5.json'
 
-newversion=$(curl -s "$url_plexapi" | sed -n 's|.*"version":"\([^"]*\)-.*|\1|p')
-echo "Latest version: "$newversion""
-curversion=$(cat /shares/Volume_1/Nas_Prog/plexmediaserver/apkg.rc | grep "Version:" | cut -d ":" -f 2 | sed 's/^ *//g')
-echo "Current version: "$curversion""
-if [[ "$newversion" > "$curversion" ]]
-    then
-    echo "Updated Version of Plex is available. Starting download & install."
+check_root() {
+	if [ $EUID -ne 0 ]; then
+	    echo "This script must be run as root: # sudo $0" 1>&2
+	    exit 1
+	fi
+}
 
-    model=$(cat /usr/local/config/config.xml | grep "<hw_ver>" | sed -e 's/\(<[^<][^<]*>\)//g' | cut -d "." -f 1)
-    OS_majorversion=$(cat /usr/local/config/config.xml | grep "<sw_ver_1>" | sed -e 's/\(<[^<][^<]*>\)//g' | cut -d "." -f 1)
+check_available_update() {
+	latestversion="$(curl -s "$url_plexapi" | sed -n 's|.*"version":"\([^"]*\)-.*|\1|p')"
+	currentversion="$(cat /shares/Volume_1/Nas_Prog/plexmediaserver/apkg.rc | grep "Version:" | cut -d ":" -f 2 | sed 's/^ *//g')"
+	if [[ "$latestversion" > "$currentversion" ]]; then
+		available='1'
+		return $available
+	else
+		echo "No new version available."
+	fi
+}
 
-    if [["OS_majorversion" = "5" ]]
-	then
-	osmodel=""$model"_OS5.bin"
-		
-    else
-	osmodel=""$model".bin"
-    fi
+check_model() {
+     model="$(cat /usr/local/config/config.xml | grep '<hw_ver>' | sed -e 's/\(<[^<][^<]*>\)//g' | cut -d "." -f 1)"
+     OS_majorversion="$(cat /usr/local/config/config.xml | grep '<sw_ver_1>' | sed -e 's/\(<[^<][^<]*>\)//g' | cut -d "." -f 1)"
+     if [[ "$OS_majorversion" == "5" ]]; then
+         osmodel=""$model"_OS5.bin"
+     else
+         osmodel=""$model".bin"
+     fi
+}
 
-    url=$(curl -s "$url_plexapi" | python3 -m json.tool | grep "$osmodel" | cut -d '"' -f 4)
-    wget --no-check-certificate "$url" -P /shares/Volume_1/.systemfile/upload
-
-    filename=$(echo "$url" | cut -d "/" -f 7)
+update_plex() {
+    echo "New version of Plex is available. Upgrading..."
+    url="$(curl -s $url_plexapi | awk -F'"' '{ for(i=1; i<=NF; i++) { if($i ~ /'^http.*"$osmodel"'/) print $i } } ')"
+    wget --no-check-certificate -qq "$url" -P /shares/Volume_1/.systemfile/upload
+    filename="$(echo "$url" | cut -d "/" -f 7)"
     /usr/sbin/upload_apkg -r"$filename" -d -f1 -g1
-else
-    echo "No new version available"
+}
+
+check_root
+check_available_update
+if [ $available ]; then
+	check_model
+	update_plex
 fi
+
 exit
