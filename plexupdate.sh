@@ -1,4 +1,7 @@
 #!/bin/bash
+# wd-plexupdate
+# Release: V1.0.1
+#
 # Script to automagically update Plex Media Server on Western Digital NAS (MyCloudOS)
 #
 # Must be run as root.
