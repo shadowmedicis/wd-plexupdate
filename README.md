@@ -37,6 +37,7 @@ Preferably place this script on your volume: "Volume_1" and in a folder only acc
 Log into ssh as the sshd (root) user.
 This script should be run as the root user, so it is important for security reasons to apply the necessary permissions.
 
+`chown root:root plexupdate.sh`
 `chmod 0700 plexupdate.sh`
 
 ## Scheduled task creation
