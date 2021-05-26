@@ -53,3 +53,12 @@ Logs of script output are also redirected day by day.
 **Warning** Please note that your modifications in the crontab are not persistent.
 Any modifications to the MyCloudOS system represent a risk. I advise you to carry out this action with full knowledge of the causes. To add the scheduled task on your system please use this tutorial: https://community.wd.com/t/how-to-make-persistent-system-changes-crontab-etc/201268
 
+ ## Manual script execution
+ 
+ Run this command in current path of the script:
+`./plexupdate.sh`
+ 
+![image](https://user-images.githubusercontent.com/80291786/119676468-28ff4580-be3e-11eb-9c75-b33b28e31a2b.png)
+
+
+
