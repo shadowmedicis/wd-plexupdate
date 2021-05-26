@@ -46,7 +46,7 @@ We can use the `crontab -e` command to create the scheduled task.
 If you are not comfortable with cron, you can use this site to help you: https://crontab-generator.org/
 
 Exemple:
-`0 3 * * * /shares/Volume_1/Scripts/plexupdate.sh > /shares/Volume_1/Scripts/Reports/cron-plexupdate-$(date +\%Y\%m\%d\%H\%M\%S).log`
+`0 3 * * * /shares/Volume_1/Scripts/plexupdate.sh > /shares/Volume_1/Scripts/Reports/cron-plexupdate-$(date +\%Y\%m\%d\%H\%M\%S).log &`
 
 This example is a scheduled plex server update task every day at 3:00 a.m.
 Logs of script output are also redirected day by day.
